@@ -243,10 +243,11 @@ function computeForestFill(): Spot[] {
 const TREE_SPOTS = computeTreeSpots();
 const FOREST_FILL_SPOTS = computeForestFill();
 
-export const TREE_POSITIONS: [number, number][] = TREE_SPOTS.map((s) => [
-  s.x,
-  s.z
-]);
+// Tất cả tree positions (sway + forest fill) → collision
+export const TREE_POSITIONS: [number, number][] = [
+  ...TREE_SPOTS.map((s) => [s.x, s.z] as [number, number]),
+  ...FOREST_FILL_SPOTS.map((s) => [s.x, s.z] as [number, number])
+];
 
 function Tree({
   spot,
