@@ -62,7 +62,8 @@ export function GameScene() {
   const [showIntro, setShowIntro] = useState(true);
   const [showOptions, setShowOptions] = useState(false);
   const [showMap, setShowMap] = useState(false);
-  const [audioRequested, setAudioRequested] = useState(false);
+  // Default ON — AudioManager sẽ auto-resume sau gesture đầu tiên (browser policy)
+  const [audioRequested, setAudioRequested] = useState(true);
   const playerPos = useRef<[number, number]>([0, 6]);
   const playerVelocity = useRef(0);
 

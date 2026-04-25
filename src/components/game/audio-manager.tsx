@@ -165,6 +165,29 @@ export function AudioManager({
     }
   }, [enable, requested]);
 
+  // Auto-resume AudioContext khi có gesture đầu tiên (browser autoplay policy
+  // chặn audio play cho đến khi user tương tác). Listener self-removes sau lần đầu.
+  useEffect(() => {
+    if (!requested) return;
+    const tryResume = () => {
+      const ctx = ctxRef.current;
+      if (ctx && ctx.state === "suspended") {
+        ctx.resume().catch(() => {});
+      }
+    };
+    const events: (keyof WindowEventMap)[] = [
+      "pointerdown",
+      "keydown",
+      "touchstart"
+    ];
+    events.forEach((ev) =>
+      window.addEventListener(ev, tryResume, { once: true, passive: true })
+    );
+    return () => {
+      events.forEach((ev) => window.removeEventListener(ev, tryResume));
+    };
+  }, [requested]);
+
   useEffect(() => {
     return () => {
       audioBus.enabled = false;
