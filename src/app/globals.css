@@ -1,0 +1,367 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =============================================================
+   Design tokens — light theme for admin dashboard (mock-up style)
+   + preserved ocean dark tokens used only by public landing.
+   ============================================================= */
+:root {
+  /* Light (admin) */
+  --bg-app: 228 28% 97%;          /* #F5F7FB */
+  --bg-surface: 0 0% 100%;        /* #FFFFFF */
+  --bg-sidebar: 0 0% 100%;        /* #FFFFFF */
+  --bg-muted: 226 30% 97%;        /* #F2F4F9 */
+  --fg: 224 24% 14%;              /* #1C2130 */
+  --fg-muted: 220 9% 46%;         /* #6B7280 */
+  --fg-soft: 220 9% 65%;          /* #9CA3AF */
+  --line: 220 15% 91%;            /* #E5E8EF */
+  --brand: 239 88% 66%;           /* #5B5EF4 */
+  --brand-soft: 239 100% 96%;     /* #EEEEFE */
+  --brand-hover: 239 80% 58%;     /* #4649E0 */
+  --accent-indigo: 239 88% 66%;
+  --accent-green: 158 72% 47%;    /* #22C55E-ish */
+  --accent-amber: 38 95% 55%;     /* #F6A723 */
+  --accent-rose: 0 84% 60%;       /* #EF4444 */
+  --accent-sky: 205 92% 58%;      /* #2FA3F1 */
+  --accent-violet: 270 85% 60%;
+
+  /* Legacy ocean palette (landing public page still uses these) */
+  --bg-deep: #031829;
+  --bg-mid: #073b59;
+  --bg-light: #108cc5;
+  --ink: #e9fbff;
+  --muted: #a9d8ea;
+}
+
+/* Reserved hook for Phase-later dark-mode toggle on admin */
+.dark {
+  --bg-app: 224 39% 8%;
+  --bg-surface: 224 28% 13%;
+  --bg-sidebar: 224 28% 11%;
+  --bg-muted: 224 28% 16%;
+  --fg: 220 20% 94%;
+  --fg-muted: 220 12% 70%;
+  --fg-soft: 220 10% 55%;
+  --line: 224 22% 22%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Plus Jakarta Sans", "Inter", "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  color: hsl(var(--fg));
+  background: hsl(var(--bg-app));
+  min-height: 100%;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* --------------------------------------------------------------
+   LEGACY OCEAN STYLES — still scoped to public pages via body flag.
+   Landing uses body class .theme-ocean; admin doesn't add it so
+   light theme applies.
+   -------------------------------------------------------------- */
+.theme-ocean {
+  color: var(--ink);
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(90, 218, 255, 0.2), transparent 30%),
+    radial-gradient(circle at 80% 15%, rgba(140, 228, 255, 0.2), transparent 28%),
+    linear-gradient(180deg, var(--bg-mid), var(--bg-deep) 70%);
+}
+
+.theme-ocean .container {
+  width: min(1080px, 92vw);
+  margin: 0 auto;
+}
+
+.theme-ocean .glass {
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.05));
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+}
+
+.theme-ocean .chip {
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.theme-ocean .btn {
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--ink);
+  padding: 10px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.theme-ocean .btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.theme-ocean .btn.primary {
+  background: linear-gradient(90deg, #72d9ff, var(--bg-light));
+  color: #052335;
+  border: none;
+}
+
+.theme-ocean .grid {
+  display: grid;
+  gap: 16px;
+}
+.theme-ocean .grid.two {
+  grid-template-columns: 1fr 1fr;
+}
+.theme-ocean .grid.three {
+  grid-template-columns: repeat(3, 1fr);
+}
+@media (max-width: 900px) {
+  .theme-ocean .grid.two,
+  .theme-ocean .grid.three {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =============================================================
+   LANDING SITE (src/app/page.tsx) — personal brand page
+   Bruno-Simon-ish vibe: dark, cinematic, minimal deps.
+   Scoped via `.landing-root` so it doesn't collide with admin
+   or ocean theme.
+   ============================================================= */
+.landing-root {
+  --land-bg: #07070d;
+  --land-bg-soft: #0e0d1a;
+  --land-ink: #f2ecdf;
+  --land-muted: #8d8aa5;
+  --land-line: rgba(255, 255, 255, 0.08);
+  --land-accent: #f4c26b;      /* warm amber, nhấn từ CV gốc */
+  --land-accent-2: #72d9ff;    /* cyan Web3 */
+  --land-accent-hot: #ef6e54;  /* đỏ cam contrast */
+  min-height: 100vh;
+  color: var(--land-ink);
+  background:
+    radial-gradient(1200px 700px at 15% 0%, rgba(244, 194, 107, 0.08), transparent 55%),
+    radial-gradient(900px 600px at 100% 30%, rgba(114, 217, 255, 0.07), transparent 55%),
+    radial-gradient(800px 500px at 50% 120%, rgba(239, 110, 84, 0.08), transparent 55%),
+    linear-gradient(180deg, var(--land-bg-soft) 0%, var(--land-bg) 85%);
+  font-family: "Plus Jakarta Sans", "Inter", "Space Grotesk", system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+.landing-root ::selection {
+  background: var(--land-accent);
+  color: #1a1508;
+}
+
+/* --- Custom cursor (desktop only; hides on touch) --- */
+@media (hover: hover) and (pointer: fine) {
+  .landing-root { cursor: none; }
+  .landing-root a,
+  .landing-root button,
+  .landing-root [data-cursor-link] { cursor: none; }
+  .landing-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    background: var(--land-accent);
+    box-shadow: 0 0 22px rgba(244, 194, 107, 0.55);
+    pointer-events: none;
+    z-index: 999;
+    transform: translate3d(-100px, -100px, 0);
+    transition: width 180ms ease, height 180ms ease, background 180ms ease,
+      box-shadow 180ms ease, opacity 180ms ease;
+    mix-blend-mode: screen;
+  }
+  .landing-cursor.is-link {
+    width: 40px;
+    height: 40px;
+    background: rgba(244, 194, 107, 0.22);
+    box-shadow: 0 0 0 1px rgba(244, 194, 107, 0.8) inset,
+      0 0 28px rgba(244, 194, 107, 0.35);
+  }
+}
+
+/* --- Scroll-reveal helper (used by <Reveal>) --- */
+.landing-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 700ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  will-change: opacity, transform;
+}
+.landing-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --- Cycling phrase --- */
+.landing-cycle {
+  display: inline-flex;
+  position: relative;
+  color: var(--land-accent);
+}
+@keyframes landing-cycle-in {
+  0% { opacity: 0; transform: translateY(12px); filter: blur(6px); }
+  60% { opacity: 1; filter: blur(0); }
+  100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+.landing-cycle-word {
+  display: inline-block;
+  animation: landing-cycle-in 420ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+/* --- Hero gradient orb (lightweight CSS-only) --- */
+.landing-orb {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(60px);
+  opacity: 0.5;
+  pointer-events: none;
+  animation: landing-orb-float 22s ease-in-out infinite alternate;
+}
+@keyframes landing-orb-float {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(40px, -60px, 0) scale(1.08); }
+}
+
+/* --- Project card hover tilt (pure CSS 3D, không cần JS) --- */
+.landing-proj {
+  position: relative;
+  transform: perspective(900px) rotateX(0) rotateY(0);
+  transition: transform 500ms cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 500ms;
+  will-change: transform;
+}
+.landing-proj:hover {
+  transform: perspective(900px) rotateX(2.5deg) rotateY(-3deg) translateY(-6px);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+}
+.landing-proj .landing-proj-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    600px circle at var(--mx, 50%) var(--my, 0%),
+    rgba(244, 194, 107, 0.12),
+    transparent 40%
+  );
+  opacity: 0;
+  transition: opacity 300ms;
+  pointer-events: none;
+}
+.landing-proj:hover .landing-proj-glow { opacity: 1; }
+
+/* --- Timeline rail --- */
+.landing-timeline {
+  position: relative;
+}
+.landing-timeline::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    var(--land-accent) 10%,
+    var(--land-accent-2) 60%,
+    transparent 100%
+  );
+  opacity: 0.55;
+}
+
+/* --- Scroll indicator --- */
+@keyframes landing-scroll-dot {
+  0% { transform: translateY(0); opacity: 1; }
+  70% { transform: translateY(14px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 0; }
+}
+.landing-scroll-dot { animation: landing-scroll-dot 2s ease-in-out infinite; }
+
+/* --- Respect reduced motion --- */
+@media (prefers-reduced-motion: reduce) {
+  .landing-orb,
+  .landing-cycle-word,
+  .landing-scroll-dot { animation: none !important; }
+  .landing-reveal { opacity: 1; transform: none; }
+  .landing-proj:hover { transform: none; }
+}
+
+/* =============================================================
+   Print media: biến trang CV thành PDF sạch khi bấm "Tải CV"
+   ============================================================= */
+@media print {
+  /* Ẩn nav trên cùng và các nút hành động — chỉ in nội dung */
+  .theme-ocean > header,
+  .cv-page .cv-cta-row,
+  .cv-page .btn {
+    display: none !important;
+  }
+  /* Nền trắng giấy, chữ đen — tiết kiệm mực và dễ đọc */
+  .theme-ocean,
+  body,
+  html {
+    background: #ffffff !important;
+    color: #111111 !important;
+  }
+  .theme-ocean .glass {
+    border: 1px solid #d0d4dc !important;
+    background: #ffffff !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+    page-break-inside: avoid;
+  }
+  .theme-ocean .chip {
+    border: 1px solid #c8ccd4 !important;
+    background: #f3f4f7 !important;
+    color: #333 !important;
+  }
+  .cv-page h1,
+  .cv-page h2,
+  .cv-page h3 {
+    color: #111 !important;
+  }
+  .cv-page p,
+  .cv-page li,
+  .cv-page span {
+    color: #333 !important;
+  }
+  /* Các khối placeholder "đang cập nhật" — giấu luôn khi in */
+  .cv-page [style*="dashed"] {
+    display: none !important;
+  }
+  .cv-page .container {
+    width: 100% !important;
+    padding: 0 !important;
+  }
+  @page {
+    margin: 14mm 12mm;
+  }
+}
